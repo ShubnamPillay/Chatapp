@@ -1,80 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <link rel="stylesheet"
-    href="[Rubik](https://fonts.google.com/specimen/Rubik)">
-   
-  </head>
-  <body>
-    <section>
-      <div class="flex1">
-      <div class="shape"></div>
-      <div class="phone">
-      <div class="inner-line">
-      <div class="most-inner-line"></div>
-      <div class="outer-flex">
-      <div class="inner-flex">
-              <p class="arrow"><i class="fas fa-chevron-left"></i></p>
-              <p class="profile-img">
-              <img src="./images/avatar.jpg" alt="profile-image" />
-              </p>
-              <div>
-                <p class="name">Mr Pillay</p>
-                <p class="duration">Available</p>
-      </div>
-      </div>
-      <div class="dots-icon"><i class="fas fa-ellipsis-v"></i></div>
-      </div>
-      </div>
-      <div clas="content">
-          <p class="receive">Good day Shubnam can you kindly send through some pictures of your dog please? </p>
 
-          <p class="receive">
-          I would love to see what she looks like I love all animals especially dogs!
-          </p>
-          <div class="collections">
-            <p><img src="./images/dog-image-3.jpg" alt="dog3" /></p>
-            <p ><img src="./images/dog-image-2.jpg"alt="dog2" /></p>
-            <p><img src="./images/dog-image-1.jpg" alt="dog1" /></p>
-          </div>
-          <div class="after">
-            <p class="sent">This is my Princess</p>
-            <p id="small" class="sent">How many days a week would you be able to walk her?</p>
-          </div>
-          <p class="receive">
-            I would be able to take her twice a week Monday and Friday at 2:30pm.
-          </p>
-          <div id="card-btn" class="receive">
-            <p class="time"><span class="star"><i class="fab fa-gg-circle"></i></span>30 minutes walk</p>
-            <p class="amount">R100</p>
-          </div>
-          <div id="card-btn" class="receive">
-            <p class="time"><span class="star"><i class="fab fa-gg-circle"></i></span>60 minutes walk</p>
-            <p class="amount">R150</p>
-          </div>
-          <p class="input-field"><input type="text" placeholder="Type a message..." /><span id="right-arrow"><i class="fas fa-chevron-right"></i></span></p>
-        </div>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Book App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     
-    </div>
+</head>
 
-    <div class="flex2">
-        <h3>Walks or Dog sitting!!
-        </h3>
-        <p class="cta">Find a friendly dog walkers on this easy to use app just switch on your location on your cellphone menu bar and the app will easily locate a dog walker near you!</p>
-        <p class="second-shape"></p>
-        
+<body class="body-home" onload="fetchContacts()">
+
+    <div id="main-content">
+
+        <div class="container-fluid">
+            <div class="col-12">
+                <h3 class="heading-home">My Contact Book <strong style="color: green">+Plus</strong></h3>
+            </div>
+        </div>
+
+        <div id="table" style="color: white">Contacts loading...</div>
+
+        <button id="addContact" type="button">Add Contact</button>
+        <button id="refresh" type="button">Refresh</button>
+
+
     </div>
-    </section>
-  </body>
+    <script src="config.js"></script>
+    <script>
+        document.getElementById("addContact").addEventListener('click', addContact);
+        document.getElementById("refresh").addEventListener('click', fetchContacts);
+
+
+        function fetchContacts() {
+            fetch(rootPath + "controller/get-contacts/")
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    dispalyOutput(data);
+                    //console.log(data);
+                })
+        }
+
+        function dispalyOutput(data) {
+            output = "<table>";
+
+            for (a in data) {
+                output += `
+                        <tr onclick="editContact(${data[a].id})">
+                            <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width="150" id="book-img"/></td>
+                            <td><h5>${data[a].firstname}</h5></td>
+                            <td><h5>${data[a].lastname}</h5></td>
+                        </tr>
+                    `
+            }
+            output += "</table>";
+            document.getElementById("table").innerHTML = output;
+        }
+
+        function addContact() {
+            window.open("addcontact.html", "_self");
+        }
+
+        function editContact(id) {
+            window.open("edit-contact.html?id=" + id, "_self");
+        }
+
+    </script>
+
+
+</body>
+© Shubnam Pillay all rights reserved
 </html>
-© 2022 Shubnam Pillay,
-Terms
-Privacy
-Security
-Status
